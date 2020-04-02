@@ -110,3 +110,9 @@ The title and header for the site can be changed in **/templates/index.html**. F
 
 ## Server Maintenance
 Maintaining the server is fairly straightforward and is done primarily through FileZilla. Updating the server file can be done by downloading the new server file, renaming it to **server.jar** and replacing the old file on the server. The world file can be backed up to your PC manually though there is no automated process at this time.
+
+## Route53 domain for heroku app
+
+Create a Route53 domain and hosted zone. Add a CNAME record from `www.yourdomain.com` to the url of the heroku app `yourappname.herokuapp.com`. Next create an S3 bucket called `yourdomain.com`, which redirects all requests to `www.yourdomain.com`. Finally add an A record for just `yourdomain.com` which points to the S3 bucket.
+
+Further info: https://devcenter.heroku.com/articles/route-53
