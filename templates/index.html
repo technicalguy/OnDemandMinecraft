@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
-  <head>
-    <meta charset="utf-8">
-      <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>On Demand MC</title>
-  </head>
-  <body>
-    <h1> On Demand Minecraft Server </h1>
-    <form action="{{ url_for('initServerMC') }}", method="POST">
-     <input type="text" name="pass" placeholder="Password">
-     <input type="submit" value="Start Server">
-    </form>
-    <h2>{{ ipMessage }} </h2>
-  </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<head>
+  <meta charset="utf-8">
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>🏠 Stuck At Home Minecraft</title>
+</head>
+
+<body>
+  <h1>🏠 Stuck At Home Minecraft Server</h1>
+  <p>Server address: mc.stuckathomecraft.com</p>
+  <form action="{{ url_for('initServerMC') }}" , method="POST">
+    <input type="text" name="pass" placeholder="Password">
+    <input type="submit" value="Start Server">
+  </form>
+  <h2>{{ ipMessage }} </h2>
+</body>
+
 </html>
