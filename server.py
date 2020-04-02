@@ -50,15 +50,20 @@ def initServerCommands(instanceIp):
         # Here 'ubuntu' is user name and 'instance_ip' is public IP of EC2
         sshClient.connect(hostname=instanceIp, username="ubuntu", pkey=key)
 
-        # Execute a command(cmd) after connecting/ssh to an instance
-        stdin, stdout, stderr = sshClient.exec_command(
+        _, stdout, _ = sshClient.exec_command("screen -ls | grep minecraft")
+        if stdout.read():
+            print('Screen already exists. Will not run minecraft again.')
+            return
+
+        sshClient.exec_command(
             "screen -dmS minecraft bash -c 'sudo java " + os.getenv('MEMORY_ALLOCATION', '') + "-jar server.jar nogui'")
-        print("COMMAND EXECUTED")
+        print('Starting minecraft')
+
         # close the client connection once the job is done
         sshClient.close()
 
     except Exception as err:
-        print('Error running server commands')
+        print('Error running server commands:')
         print(err)
 
 # Main endpoint for loading the webpage
@@ -113,6 +118,8 @@ def manageServer(client):
             # SETUP MULTIPROCESSING HERE INSTEAD OF REDIS
             returnString = startServer(client)
         elif stateName == 'running':
+            # Restart minecraft if needed
+            initServerCommands(instance['PublicIpAddress'])
             returnString = 'IP: ' + instance['PublicIpAddress']
         else:
             returnString = 'ERROR'
