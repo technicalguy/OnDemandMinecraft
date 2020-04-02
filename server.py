@@ -114,7 +114,11 @@ def manageServer(client):
         if (stateName == 'stopped') or (stateName == 'shutting-down'):
             returnString = startServer(client, instance['InstanceId'])
         elif stateName == 'running':
+<<<<<<< HEAD
             returnString = 'IP: ' + instance['PublicIpAddress']
+=======
+            returnString = 'Server is up and running!'
+>>>>>>> a509964... Do not display the server ip
         else:
             print('Instance state \'{}\' is unrecognized'.format(
                 stateName), flush=True)
@@ -149,7 +153,7 @@ def startServer(client, instanceId):
         stateCode = state['Code']
 
     ipAddress = instance['PublicIpAddress']
-    returnString = 'Server is starting, this may take a few minutes.\nIP: ' + ipAddress
+    returnString = 'Server is starting, this may take a few minutes... Remember to hit refresh in Minecraft!'
     # SETUP MULTIPROCESSING HERE INSTEAD OF REDIS
     p = Process(target=serverWaitOk, args=(client, ipAddress, instanceId))
     p.start()
