@@ -12,6 +12,9 @@ import warnings
 app = Flask(__name__)
 CORS(app)
 
+SERVER_NAME = os.getenv('SERVER_NAME', 'On Demand Minecraft Server')
+SERVER_ADDRESS = os.getenv('SERVER_ADDRESS')
+
 # Stop paramiko from clogging the log output with depreciation warnings
 warnings.filterwarnings(action='ignore', module='.*paramiko.*')
 
@@ -65,10 +68,14 @@ def initServerCommands(instanceIp):
         print(err, flush=True)
 
 
+def render_index(**vargs):
+    return render_template('index.html', serverName=SERVER_NAME, serverAddress=SERVER_ADDRESS, **vargs)
+
+
 @app.route('/')
 def loadIndex():
     """Main endpoint for loading the webpage"""
-    return render_template('index.html')
+    return render_index()
 
 
 @app.route('/initServerMC', methods=['POST'])
@@ -92,7 +99,7 @@ def initServerMC():
         print('IP', request.remote_addr,
               'gave wrong password \'{}\''.format(inputPass), flush=True)
 
-    return render_template('index.html', ipMessage=message)
+    return render_index(ipMessage=message)
 
 
 def manageServer(client):
@@ -114,11 +121,7 @@ def manageServer(client):
         if (stateName == 'stopped') or (stateName == 'shutting-down'):
             returnString = startServer(client, instance['InstanceId'])
         elif stateName == 'running':
-<<<<<<< HEAD
-            returnString = 'IP: ' + instance['PublicIpAddress']
-=======
             returnString = 'Server is up and running!'
->>>>>>> a509964... Do not display the server ip
         else:
             print('Instance state \'{}\' is unrecognized'.format(
                 stateName), flush=True)
