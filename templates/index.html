@@ -5,12 +5,14 @@
 <head>
   <meta charset="utf-8">
   <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <title>🏠 Stuck At Home Minecraft</title>
+  <title>{{ serverName }}</title>
 </head>
 
 <body>
-  <h1>🏠 Stuck At Home Minecraft Server</h1>
-  <p>Server address: mc.stuckathomecraft.com</p>
+  <h1>{{ serverName }}</h1>
+  {% if serverAddress %}
+  <p>Server address: {{ serverAddress }}</p>
+  {% endif %}
   <form action="{{ url_for('initServerMC') }}" , method="POST">
     <input type="text" name="pass" placeholder="Password">
     <input type="submit" value="Start Server">

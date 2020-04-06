@@ -12,6 +12,9 @@ import warnings
 app = Flask(__name__)
 CORS(app)
 
+SERVER_NAME = os.getenv('SERVER_NAME', 'On Demand Minecraft Server')
+SERVER_ADDRESS = os.getenv('SERVER_ADDRESS')
+
 # Stop paramiko from clogging the log output with depreciation warnings
 warnings.filterwarnings(action='ignore', module='.*paramiko.*')
 
@@ -72,12 +75,15 @@ def initServerCommands(instanceIp):
         print('Error running server commands:')
         print(err, flush=True)
 
+def render_index(**vargs):
+    return render_template('index.html', serverName=SERVER_NAME, serverAddress=SERVER_ADDRESS, **vargs)
+
 # Main endpoint for loading the webpage
 
 
 @app.route('/')
 def loadIndex():
-    return render_template('index.html')
+    return render_index()
 
 
 @app.route('/initServerMC', methods=['POST'])
@@ -101,7 +107,7 @@ def initServerMC():
         print('IP', request.remote_addr,
               'gave wrong password \'{}\''.format(inputPass), flush=True)
 
-    return render_template('index.html', ipMessage=message)
+    return render_index(ipMessage=message)
 
 
 # Gets IP Address for return to webpage otherwise boots server
