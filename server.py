@@ -59,7 +59,7 @@ def initServerCommands(instanceIp):
 
         # Execute a command(cmd) after connecting/ssh to an instance
         stdin, stdout, stderr = sshClient.exec_command(
-            "screen -dmS minecraft bash -c 'sudo java " + os.getenv('MEMORY_ALLOCATION', '') + "-jar server.jar nogui'")
+            "screen -dmS minecraft bash -c 'sudo java -Djava.net.preferIPv4Stack=true " + os.getenv('MEMORY_ALLOCATION', '') + "-jar server.jar nogui'")
         print('Starting minecraft', flush=True)
         # close the client connection once the job is done
         sshClient.close()
